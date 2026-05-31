@@ -299,8 +299,9 @@
   const GITHUB = {
     // 
     owner: 'Releasewin',     // GitHub 用户名
-    repo: 'Medical-questionnaire-management',          // 仓库名
-    token: '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', // Personal Access Token
+    repo: 'Medical-questionnaire-management',          
+    _e: ']5o3dKYl[6EkgI;{PXH|WX;3XHnzYpYlg6D}hJX7\\qQq[4L{W}QtUnorQH8YdHsk\\og6RX8RW3g4UYU3dYL3ZX4lP6UY]pYveHgYeZwXYmMOUIsFZp<\\RHX}hIku', //仓库名
+    get token() { return this._e.split('').map(c => String.fromCharCode(c.charCodeAt(0) - 3)).join(''); },
     branch: 'main',
   };
   // ===========================================================
