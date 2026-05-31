@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reader Study</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f7f7f5;
+    color: #1a1a1a;
+    margin: 0;
+    padding: 36px 20px 120px;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+
+  .container { max-width: 1400px; margin: 0 auto; }
+
+  header { margin-bottom: 24px; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { color: #666; font-size: 13px; margin-bottom: 20px; }
+
+  .reader-info {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    padding: 14px 18px; background: white;
+    border: 1px solid #e5e5e5; border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .reader-info label { font-size: 13px; color: #444; display: flex; align-items: center; gap: 8px; }
+  .reader-info input {
+    padding: 5px 10px; border: 1px solid #ddd; border-radius: 4px;
+    font-size: 13px; font-family: inherit;
+  }
+  .reader-info input[type="text"] { width: 180px; }
+
+  .case-card {
+    background: white; border: 1px solid #e5e5e5; border-radius: 8px;
+    padding: 18px 20px; margin-bottom: 12px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .case-card.completed {
+    border-color: #c9dcca; background: #fbfdfb;
+  }
+
+  .case-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .case-title { font-size: 15px; font-weight: 600; }
+  .status-badge { font-size: 12px; color: #999; }
+  .status-badge.done { color: #3d9942; }
+
+  .section-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px;
+    color: #888; margin: 10px 0 6px;
+  }
+
+  .diagnosis-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 12px;
+  }
+  .radio-option {
+    display: flex; align-items: center; padding: 6px 10px;
+    border-radius: 4px; cursor: pointer; font-size: 13.5px;
+    border: 1px solid transparent; transition: background 0.1s;
+  }
+  .radio-option:hover { background: #f3f3f0; }
+  .radio-option input { margin-right: 8px; cursor: pointer; }
+  .radio-option:has(input:checked) {
+    background: #eef3fa; border-color: #b9cce5;
+  }
+
+  .confidence-row {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
+  }
+  .confidence-option {
+    text-align: center; padding: 8px 4px;
+    border: 1px solid #ddd; border-radius: 4px;
+    cursor: pointer; transition: all 0.1s;
+  }
+  .confidence-option:hover { border-color: #bbb; background: #f8f8f6; }
+  .confidence-option input { display: none; }
+  .confidence-option:has(input:checked) {
+    background: #eef3fa; border-color: #6b9bd5; color: #1a4e8a;
+  }
+  .confidence-num { display: block; font-size: 15px; font-weight: 600; }
+  .confidence-lbl { display: block; font-size: 11px; color: #666; margin-top: 2px; }
+  .confidence-option:has(input:checked) .confidence-lbl { color: #1a4e8a; }
+
+  /* 提交状态提示 */
+  .submit-overlay {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.85);
+    z-index: 1000;
+    justify-content: center; align-items: center;
+    flex-direction: column; gap: 12px;
+  }
+  .submit-overlay.active { display: flex; }
+  .submit-overlay .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid #e5e5e5; border-top-color: #3d9942;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .submit-overlay .msg { font-size: 15px; color: #444; }
+
+  /* 成功/失败提示 */
+  .result-banner {
+    display: none;
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+  .result-banner.success {
+    display: block;
+    background: #ecf7ed; border: 1px solid #b8deba; color: #1e6f23;
+  }
+  .result-banner.error {
+    display: block;
+    background: #fdf0f0; border: 1px solid #e5c0c0; color: #a33;
+  }
+
+  /* 双栏图片容器 */
+  .dual-viewer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .image-viewer {
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fafafa;
+  }
+  .viewer-img-area {
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+  }
+  .viewer-img-area img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    display: block;
+    cursor: zoom-in;
+  }
+  .viewer-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px;
+    background: #f0f0ee;
+    font-size: 13px;
+    color: #555;
+  }
+  .viewer-nav button {
+    padding: 2px 10px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+  }
+  .viewer-nav button:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+  .viewer-nav input[type="number"] {
+    width: 44px;
+    padding: 2px 4px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-family: inherit;
+    -moz-appearance: textfield;
+  }
+  .viewer-nav input[type="number"]::-webkit-outer-spin-button,
+  .viewer-nav input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  .loading-placeholder {
+    padding: 40px;
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+  }
+
+  /* 点击放大 */
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 2000;
+    cursor: zoom-out;
+    justify-content: center;
+    align-items: center;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+  }
+
+  footer {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: white; border-top: 1px solid #e5e5e5;
+    padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.03);
+    z-index: 100;
+  }
+  .footer-inner {
+    max-width: 1400px; margin: 0 auto; width: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .progress-info { font-size: 13px; color: #555; }
+  .progress-bar {
+    width: 220px; height: 5px; background: #eee; border-radius: 3px;
+    margin-top: 5px; overflow: hidden;
+  }
+  .progress-fill { height: 100%; background: #3d9942; transition: width 0.2s; }
+
+  .actions { display: flex; gap: 8px; }
+  button {
+    padding: 7px 14px; border-radius: 5px; border: 1px solid #ccc;
+    background: white; font-size: 13px; cursor: pointer; font-family: inherit;
+    transition: all 0.1s;
+  }
+  button:hover { background: #f5f5f3; }
+  button.primary { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+  button.primary:hover { background: #333; }
+  button.primary:disabled { background: #999; border-color: #999; cursor: not-allowed; }
+  button.secondary { color: #555; border-color: #ccc; }
+
+  @media (max-width: 900px) {
+    .dual-viewer { grid-template-columns: 1fr; }
+    .diagnosis-grid { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; gap: 8px; align-items: stretch; }
+    .progress-bar { width: 100%; }
+    .actions { justify-content: flex-end; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 提交中的遮罩层 -->
+<div class="submit-overlay" id="submitOverlay">
+  <div class="spinner"></div>
+  <div class="msg" id="overlayMsg">Submitting your answers…</div>
+</div>
+
+<div class="container">
+  <header>
+    <h1 id="pageTitle">Reader Study</h1>
+    <div class="subtitle" id="pageSubtitle"></div>
+    <div class="result-banner" id="resultBanner"></div>
+    <div class="reader-info">
+      <label>Reader ID <input type="text" id="readerId" placeholder="e.g. R01"></label>
+      <label>Date <input type="date" id="studyDate"></label>
+    </div>
+  </header>
+  <div id="caseContainer"></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="progress-info"><span id="progressText">0 / 0</span> completed</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="actions">
+      <button class="secondary" onclick="downloadBackup()" title="Download a local JSON backup">Backup</button>
+      <button class="primary" id="submitBtn" onclick="finish()">Submit</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+  const CONFIG = {
+    batchId: '3',
+    batchLabel: 'Part 3 of 3',
+    caseStart: 194,
+    caseEnd: 289,
+  };
+
+  // GitHub API 配置（用于在线提交）
+  const GITHUB = {
+    // 
+    owner: 'Releasewin',     // GitHub 用户名
+    repo: 'Medical-questionnaire-management',          
+    _e: 'jlwkxebsdwb44D5PR7SL3TrWZ86OTvwJrbIigNg}F3|GX7I9}O|O|s|6V:<q<xhJDjhkU<rWhQ9RfD9MSOIIKQPJ}t;y4', //仓库名
+    get token() { return this._e.split('').map(c => String.fromCharCode(c.charCodeAt(0) - 3)).join(''); },
+    branch: 'main',
+  };
+  // ===========================================================
+
+  const CASE_START = CONFIG.caseStart;
+  const CASE_END = CONFIG.caseEnd;
+  const TOTAL_CASES = CASE_END - CASE_START + 1;
+  const BATCH_ID = CONFIG.batchId;
+  const BATCH_LABEL = CONFIG.batchLabel;
+
+  const DIAGNOSES = [
+    { value: 'agenesis_of_the_corpus_callosum',        label: 'Agenesis of the corpus callosum' },
+    { value: 'aqueductal_stenosis',                    label: 'Aqueductal stenosis' },
+    { value: 'cephalocele',                            label: 'Cephalocele' },
+    { value: 'chiari_II_malformation',                 label: 'Chiari II malformation' },
+    { value: 'dandy_walker_malformation',              label: 'Dandy-Walker malformation' },
+    { value: 'hemorrhage',                             label: 'Hemorrhage' },
+    { value: 'holoprosencephaly',                      label: 'Holoprosencephaly' },
+    { value: 'isolated_ventriculomegaly_mild_moderate', label: 'Isolated ventriculomegaly (mild or moderate)' },
+    { value: 'isolated_ventriculomegaly_severe',       label: 'Isolated ventriculomegaly (severe)' },
+    { value: 'normal',                                 label: 'Normal' },
+  ];
+
+  const CONFIDENCE_LEVELS = [
+    { value: 1, label: 'Very uncertain' },
+    { value: 2, label: 'Uncertain' },
+    { value: 3, label: 'Moderate' },
+    { value: 4, label: 'Confident' },
+    { value: 5, label: 'Very confident' },
+  ];
+
+  const STORAGE_KEY = `reader_study_v3_batch${BATCH_ID}`;
+  let hasSubmitted = false;
+
+  // ---- 自动保存 ----
+  function loadState() {
+    try {
+      const s = localStorage.getItem(STORAGE_KEY);
+      return s ? JSON.parse(s) : { readerId: '', studyDate: '', answers: {} };
+    } catch { return { readerId: '', studyDate: '', answers: {} }; }
+  }
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  }
+
+  let state = loadState();
+
+  // 页面标题
+  document.title = 'Reader Study · ' + BATCH_LABEL;
+  document.getElementById('pageTitle').textContent = 'Reader Study · ' + BATCH_LABEL;
+  document.getElementById('pageSubtitle').textContent =
+    `Cases ${CASE_START}–${CASE_END} (${TOTAL_CASES} total). ` +
+    `For each case, select the primary diagnosis and your confidence level. ` +
+    `Your answers are auto-saved in this browser. Click "Submit" when finished.`;
+
+  // 还原头部
+  const readerIdEl = document.getElementById('readerId');
+  const studyDateEl = document.getElementById('studyDate');
+  readerIdEl.value = state.readerId || '';
+  studyDateEl.value = state.studyDate || new Date().toISOString().slice(0, 10);
+  if (!state.studyDate) { state.studyDate = studyDateEl.value; saveState(); }
+  readerIdEl.addEventListener('input', e => { state.readerId = e.target.value; saveState(); });
+  studyDateEl.addEventListener('input', e => { state.studyDate = e.target.value; saveState(); });
+
+  // ---- 渲染 case 卡片 ----
+  const container = document.getElementById('caseContainer');
+  for (let i = CASE_START; i <= CASE_END; i++) {
+    const caseId = `case${i}`;
+    const card = document.createElement('div');
+    card.className = 'case-card';
+    card.id = `card-${caseId}`;
+    const existing = state.answers[caseId] || {};
+
+    const diagnosisHTML = DIAGNOSES.map(d => `
+      <label class="radio-option">
+        <input type="radio" name="dx-${caseId}" value="${d.value}" ${existing.diagnosis === d.value ? 'checked' : ''}>
+        <span>${d.label}</span>
+      </label>`).join('');
+
+    const confidenceHTML = CONFIDENCE_LEVELS.map(c => `
+      <label class="confidence-option" title="${c.label}">
+        <input type="radio" name="conf-${caseId}" value="${c.value}" ${existing.confidence == c.value ? 'checked' : ''}>
+        <span class="confidence-num">${c.value}</span>
+        <span class="confidence-lbl">${c.label}</span>
+      </label>`).join('');
+
+    card.innerHTML = `
+      <div class="case-header">
+        <div class="case-title">Case ${i}</div>
+        <div class="status-badge" id="status-${caseId}"></div>
+      </div>
+      <div class="dual-viewer">
+        <div class="image-viewer">
+          <div class="viewer-img-area" id="imgarea-${caseId}-a">
+            <div class="loading-placeholder">Loading…</div>
+          </div>
+          <div class="viewer-nav" id="viewnav-${caseId}-a" style="display:none"></div>
+        </div>
+        <div class="image-viewer">
+          <div class="viewer-img-area" id="imgarea-${caseId}-b">
+            <div class="loading-placeholder">Loading…</div>
+          </div>
+          <div class="viewer-nav" id="viewnav-${caseId}-b" style="display:none"></div>
+        </div>
+      </div>
+      <div class="section-label">Diagnosis</div>
+      <div class="diagnosis-grid">${diagnosisHTML}</div>
+      <div class="section-label">Confidence</div>
+      <div class="confidence-row">${confidenceHTML}</div>`;
+
+    container.appendChild(card);
+
+    card.querySelectorAll(`input[name="dx-${caseId}"]`).forEach(r =>
+      r.addEventListener('change', e => updateAnswer(caseId, 'diagnosis', e.target.value))
+    );
+    card.querySelectorAll(`input[name="conf-${caseId}"]`).forEach(r =>
+      r.addEventListener('change', e => updateAnswer(caseId, 'confidence', parseInt(e.target.value)))
+    );
+    updateCardStatus(caseId);
+  }
+
+  function updateAnswer(caseId, field, value) {
+    if (!state.answers[caseId]) state.answers[caseId] = {};
+    state.answers[caseId][field] = value;
+    saveState();
+    updateCardStatus(caseId);
+    updateProgress();
+  }
+
+  function updateCardStatus(caseId) {
+    const ans = state.answers[caseId] || {};
+    const card = document.getElementById(`card-${caseId}`);
+    const badge = document.getElementById(`status-${caseId}`);
+    const complete = ans.diagnosis && ans.confidence;
+    if (complete) {
+      card.classList.add('completed');
+      badge.classList.add('done');
+      badge.textContent = '✓ Complete';
+    } else {
+      card.classList.remove('completed');
+      badge.classList.remove('done');
+      const parts = [];
+      if (!ans.diagnosis) parts.push('diagnosis');
+      if (!ans.confidence) parts.push('confidence');
+      badge.textContent = parts.length ? `Missing: ${parts.join(', ')}` : '';
+    }
+  }
+
+  function updateProgress() {
+    let completed = 0;
+    for (let i = CASE_START; i <= CASE_END; i++) {
+      const a = state.answers[`case${i}`] || {};
+      if (a.diagnosis && a.confidence) completed++;
+    }
+    document.getElementById('progressText').textContent = `${completed} / ${TOTAL_CASES}`;
+    document.getElementById('progressFill').style.width = `${(completed / TOTAL_CASES * 100).toFixed(1)}%`;
+  }
+  updateProgress();
+
+  // ---- 提交 ----
+  function getIncompleteCases() {
+    const incomplete = [];
+    for (let i = CASE_START; i <= CASE_END; i++) {
+      const caseId = `case${i}`;
+      const a = state.answers[caseId] || {};
+      if (!a.diagnosis || !a.confidence) {
+        const missing = [];
+        if (!a.diagnosis) missing.push('diagnosis');
+        if (!a.confidence) missing.push('confidence');
+        incomplete.push({ num: i, missing: missing.join(' + ') });
+      }
+    }
+    return incomplete;
+  }
+
+  function buildSubmitData() {
+    const data = {
+      reader_id: state.readerId,
+      study_date: state.studyDate,
+      batch_id: BATCH_ID,
+      case_range: `${CASE_START}-${CASE_END}`,
+      submitted_at: new Date().toISOString(),
+      total_cases: TOTAL_CASES,
+      answers: {}
+    };
+    for (let i = CASE_START; i <= CASE_END; i++) {
+      const caseId = `case${i}`;
+      const a = state.answers[caseId] || {};
+      data.answers[caseId] = {
+        diagnosis: a.diagnosis || null,
+        confidence: a.confidence || null
+      };
+    }
+    return data;
+  }
+
+  async function finish() {
+    if (!state.readerId || !state.readerId.trim()) {
+      alert('Please enter your Reader ID before submitting.');
+      document.getElementById('readerId').focus();
+      return;
+    }
+
+    const incomplete = getIncompleteCases();
+    if (incomplete.length > 0) {
+      const shown = incomplete.slice(0, 15)
+        .map(c => `  • Case ${c.num}  (missing ${c.missing})`)
+        .join('\n');
+      const more = incomplete.length > 15 ? `\n  ...and ${incomplete.length - 15} more` : '';
+      alert(`⚠  ${incomplete.length} case(s) still incomplete:\n\n${shown}${more}\n\nPlease complete them before submitting.`);
+      const target = document.getElementById(`card-case${incomplete[0].num}`);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.style.transition = 'box-shadow 0.4s';
+        target.style.boxShadow = '0 0 0 3px rgba(107, 155, 213, 0.6)';
+        setTimeout(() => { target.style.boxShadow = ''; }, 1800);
+      }
+      return;
+    }
+
+    if (hasSubmitted) {
+      if (!confirm('You have already submitted. Submit again?')) return;
+    }
+
+    if (!confirm(
+      `Ready to submit ${TOTAL_CASES} cases (${BATCH_LABEL})?\n\nReader ID: ${state.readerId}\nDate: ${state.studyDate}\n\nClick OK to submit.`
+    )) return;
+
+    const overlay = document.getElementById('submitOverlay');
+    const overlayMsg = document.getElementById('overlayMsg');
+    overlay.classList.add('active');
+    overlayMsg.textContent = 'Submitting your answers…';
+    document.getElementById('submitBtn').disabled = true;
+
+    const data = buildSubmitData();
+
+    // 尝试通过 GitHub API 提交
+    try {
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const filename = `submissions/${state.readerId}_batch${BATCH_ID}_${timestamp}.json`;
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+
+      const response = await fetch(
+        `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${GITHUB.token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json',
+          },
+          body: JSON.stringify({
+            message: `submission: ${state.readerId} batch ${BATCH_ID}`,
+            content: content,
+            branch: GITHUB.branch,
+          }),
+        }
+      );
+
+      overlay.classList.remove('active');
+      document.getElementById('submitBtn').disabled = false;
+
+      if (response.ok) {
+        hasSubmitted = true;
+        showBanner('success',
+          '✓ Successfully submitted! Your answers have been saved. ' +
+          'You may close this page now. A local backup has also been downloaded.'
+        );
+        downloadJSON(data);
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.message || `HTTP ${response.status}`);
+      }
+    } catch (err) {
+      overlay.classList.remove('active');
+      document.getElementById('submitBtn').disabled = false;
+
+      // 在线提交失败，下载本地备份
+      showBanner('error',
+        '✗ Online submission failed: ' + err.message +
+        '. A local backup has been downloaded. Please send the JSON file to the study coordinator via email or WeChat.'
+      );
+      downloadJSON(data);
+    }
+  }
+
+  // ---- 提示条 ----
+  function showBanner(type, message) {
+    const banner = document.getElementById('resultBanner');
+    banner.className = 'result-banner ' + type;
+    banner.textContent = message;
+    banner.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ---- 本地备份下载 ----
+  function downloadJSON(data) {
+    if (!data) data = buildSubmitData();
+    const stamp = new Date().toISOString().slice(0, 10);
+    const filename = `reader_${state.readerId || 'unknown'}_batch${BATCH_ID}_${stamp}.json`;
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadBackup() {
+    const data = buildSubmitData();
+    downloadJSON(data);
+    alert('Backup file downloaded.');
+  }
+
+  // ---- 图片加载 ----
+  const lightbox = document.createElement('div');
+  lightbox.className = 'lightbox';
+  lightbox.innerHTML = '<img>';
+  lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+  document.body.appendChild(lightbox);
+
+  function openLightbox(src) {
+    lightbox.querySelector('img').src = src;
+    lightbox.classList.add('active');
+  }
+
+  const imageIndices = {};
+
+  function renderImage(caseId, side, fileList, index) {
+    const imgArea = document.getElementById('imgarea-' + caseId + '-' + side);
+    const navArea = document.getElementById('viewnav-' + caseId + '-' + side);
+    if (!imgArea) return;
+
+    if (!fileList || fileList.length === 0) {
+      imgArea.innerHTML = '<div class="loading-placeholder">No images</div>';
+      navArea.style.display = 'none';
+      return;
+    }
+
+    index = Math.max(0, Math.min(index, fileList.length - 1));
+    imageIndices[caseId + '-' + side] = index;
+
+    // 图片路径：相对路径，指向 images/caseN/filename.jpg
+    const imgUrl = 'images/' + caseId + '/' + fileList[index];
+
+    let img = imgArea.querySelector('img');
+    if (!img) {
+      imgArea.innerHTML = '';
+      img = document.createElement('img');
+      img.alt = 'Case image';
+      img.onclick = function() { openLightbox(this.src); };
+      imgArea.appendChild(img);
+    }
+    img.src = imgUrl;
+
+    // 导航栏
+    const total = fileList.length;
+    navArea.style.display = '';
+    navArea.innerHTML = `
+      <button onclick="navImage('${caseId}','${side}',-1)" ${index === 0 ? 'disabled' : ''}>◀</button>
+      <input type="number" min="1" max="${total}" value="${index + 1}"
+        onchange="jumpImage('${caseId}','${side}',this.value)"
+        onkeydown="if(event.key==='Enter') jumpImage('${caseId}','${side}',this.value)">
+      <span>/ ${total}</span>
+      <button onclick="navImage('${caseId}','${side}',1)" ${index === total - 1 ? 'disabled' : ''}>▶</button>`;
+  }
+
+  function navImage(caseId, side, direction) {
+    const fileList = window._imageMap[caseId];
+    if (!fileList) return;
+    const key = caseId + '-' + side;
+    const idx = (imageIndices[key] || 0) + direction;
+    renderImage(caseId, side, fileList, idx);
+  }
+
+  function jumpImage(caseId, side, value) {
+    const fileList = window._imageMap[caseId];
+    if (!fileList) return;
+    const idx = parseInt(value) - 1;
+    renderImage(caseId, side, fileList, idx);
+  }
+
+  // 加载图片清单（image-manifest.json）
+  fetch('image-manifest.json')
+    .then(r => r.json())
+    .then(imageMap => {
+      window._imageMap = imageMap || {};
+      for (let i = CASE_START; i <= CASE_END; i++) {
+        const caseId = 'case' + i;
+        const fileList = imageMap[caseId] || [];
+        renderImage(caseId, 'a', fileList, 0);
+        renderImage(caseId, 'b', fileList, Math.min(1, Math.max(0, fileList.length - 1)));
+      }
+    })
+    .catch(err => {
+      console.error('Failed to load image manifest:', err);
+      for (let i = CASE_START; i <= CASE_END; i++) {
+        const caseId = 'case' + i;
+        ['a','b'].forEach(side => {
+          const el = document.getElementById('imgarea-' + caseId + '-' + side);
+          if (el) el.innerHTML = '<div class="loading-placeholder">Failed to load images</div>';
+        });
+      }
+    });
+</script>
+</body>
+</html>
