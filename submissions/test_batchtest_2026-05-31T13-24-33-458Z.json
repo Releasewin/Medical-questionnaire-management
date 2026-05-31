@@ -1,0 +1,50 @@
+{
+  "reader_id": "test",
+  "study_date": "2026-05-31",
+  "batch_id": "test",
+  "case_range": "1-10",
+  "submitted_at": "2026-05-31T13:24:33.458Z",
+  "total_cases": 10,
+  "answers": {
+    "case1": {
+      "diagnosis": "holoprosencephaly",
+      "confidence": 1
+    },
+    "case2": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 1
+    },
+    "case3": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 1
+    },
+    "case4": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 1
+    },
+    "case5": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 1
+    },
+    "case6": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 1
+    },
+    "case7": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 1
+    },
+    "case8": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 1
+    },
+    "case9": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 1
+    },
+    "case10": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 1
+    }
+  }
+}
