@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reader Study</title>
+<title>读片研究</title>
 <style>
   * { box-sizing: border-box; }
 
@@ -257,17 +257,17 @@
 <!-- 提交中的遮罩层 -->
 <div class="submit-overlay" id="submitOverlay">
   <div class="spinner"></div>
-  <div class="msg" id="overlayMsg">Submitting your answers…</div>
+  <div class="msg" id="overlayMsg">正在提交答案…</div>
 </div>
 
 <div class="container">
   <header>
-    <h1 id="pageTitle">Reader Study</h1>
+    <h1 id="pageTitle">读片研究</h1>
     <div class="subtitle" id="pageSubtitle"></div>
     <div class="result-banner" id="resultBanner"></div>
     <div class="reader-info">
-      <label>Reader ID <input type="text" id="readerId" placeholder="e.g. R01"></label>
-      <label>Date <input type="date" id="studyDate"></label>
+      <label>读者编号 <input type="text" id="readerId" placeholder="例如 R01"></label>
+      <label>日期 <input type="date" id="studyDate"></label>
     </div>
   </header>
   <div id="caseContainer"></div>
@@ -276,12 +276,12 @@
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="progress-info"><span id="progressText">0 / 0</span> completed</div>
+      <div class="progress-info"><span id="progressText">0 / 0</span> 已完成</div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     </div>
     <div class="actions">
-      <button class="secondary" onclick="downloadBackup()" title="Download a local JSON backup">Backup</button>
-      <button class="primary" id="submitBtn" onclick="finish()">Submit</button>
+      <button class="secondary" onclick="downloadBackup()" title="下载本地JSON备份">备份</button>
+      <button class="primary" id="submitBtn" onclick="finish()">提交</button>
     </div>
   </div>
 </footer>
@@ -290,17 +290,16 @@
 
   const CONFIG = {
     batchId: '1',
-    batchLabel: 'Part 1 of 3',
+    batchLabel: 'part1',
     caseStart: 1,
     caseEnd: 97,
   };
 
   // GitHub API 配置（用于在线提交）
   const GITHUB = {
-    // 
-    owner: 'Releasewin',     // GitHub 用户名
-    repo: 'Medical-questionnaire-management',          
-    _e: 'jlwkxebsdwb44D5PR7SL3TrWZ86OTvwJrbIigNg}F3|GX7I9}O|O|s|6V:<q<xhJDjhkU<rWhQ9RfD9MSOIIKQPJ}t;y4', //仓库名
+    owner: 'Releasewin',
+    repo: 'Medical-questionnaire-management',
+    _e: 'jlwkxebsdwb44D5PR7SL3TrWZ86OTvwJrbIigNg}F3|GX7I9}O|O|s|6V:<q<xhJDjhkU<rWhQ9RfD9MSOIIKQPJ}t;y4',
     get token() { return this._e.split('').map(c => String.fromCharCode(c.charCodeAt(0) - 3)).join(''); },
     branch: 'main',
   };
@@ -313,24 +312,24 @@
   const BATCH_LABEL = CONFIG.batchLabel;
 
   const DIAGNOSES = [
-    { value: 'agenesis_of_the_corpus_callosum',        label: 'Agenesis of the corpus callosum' },
-    { value: 'aqueductal_stenosis',                    label: 'Aqueductal stenosis' },
-    { value: 'cephalocele',                            label: 'Cephalocele' },
-    { value: 'chiari_II_malformation',                 label: 'Chiari II malformation' },
-    { value: 'dandy_walker_malformation',              label: 'Dandy-Walker malformation' },
-    { value: 'hemorrhage',                             label: 'Hemorrhage' },
-    { value: 'holoprosencephaly',                      label: 'Holoprosencephaly' },
-    { value: 'isolated_ventriculomegaly_mild_moderate', label: 'Isolated ventriculomegaly (mild or moderate)' },
-    { value: 'isolated_ventriculomegaly_severe',       label: 'Isolated ventriculomegaly (severe)' },
-    { value: 'normal',                                 label: 'Normal' },
+    { value: 'agenesis_of_the_corpus_callosum',        label: '胼胝体发育不全' },
+    { value: 'aqueductal_stenosis',                    label: '中脑导水管狭窄' },
+    { value: 'cephalocele',                            label: '脑膨出' },
+    { value: 'chiari_II_malformation',                 label: 'Chiari II 畸形' },
+    { value: 'dandy_walker_malformation',              label: 'Dandy-Walker 畸形' },
+    { value: 'hemorrhage',                             label: '脑出血' },
+    { value: 'holoprosencephaly',                      label: '全前脑畸形' },
+    { value: 'isolated_ventriculomegaly_mild_moderate', label: '单纯性脑室增宽（轻度或中度）' },
+    { value: 'isolated_ventriculomegaly_severe',       label: '单纯性脑室增宽（重度）' },
+    { value: 'normal',                                 label: '正常' },
   ];
 
   const CONFIDENCE_LEVELS = [
-    { value: 1, label: 'Very uncertain' },
-    { value: 2, label: 'Uncertain' },
-    { value: 3, label: 'Moderate' },
-    { value: 4, label: 'Confident' },
-    { value: 5, label: 'Very confident' },
+    { value: 1, label: '非常不确定' },
+    { value: 2, label: '不确定' },
+    { value: 3, label: '一般' },
+    { value: 4, label: '确定' },
+    { value: 5, label: '非常确定' },
   ];
 
   const STORAGE_KEY = `reader_study_v3_batch${BATCH_ID}`;
@@ -350,12 +349,12 @@
   let state = loadState();
 
   // 页面标题
-  document.title = 'Reader Study · ' + BATCH_LABEL;
-  document.getElementById('pageTitle').textContent = 'Reader Study · ' + BATCH_LABEL;
+  document.title = '读片研究 · ' + BATCH_LABEL;
+  document.getElementById('pageTitle').textContent = '读片研究 · ' + BATCH_LABEL;
   document.getElementById('pageSubtitle').textContent =
-    `Cases ${CASE_START}–${CASE_END} (${TOTAL_CASES} total). ` +
-    `For each case, select the primary diagnosis and your confidence level. ` +
-    `Your answers are auto-saved in this browser. Click "Submit" when finished.`;
+    `第 ${CASE_START}–${CASE_END} 个病例（共 ${TOTAL_CASES} 个）。` +
+    `请为每个病例选择主要诊断和信心等级。` +
+    `您的答案已自动保存在浏览器中，完成后点击"提交"。`;
 
   // 还原头部
   const readerIdEl = document.getElementById('readerId');
@@ -390,26 +389,26 @@
 
     card.innerHTML = `
       <div class="case-header">
-        <div class="case-title">Case ${i}</div>
+        <div class="case-title">病例 ${i}</div>
         <div class="status-badge" id="status-${caseId}"></div>
       </div>
       <div class="dual-viewer">
         <div class="image-viewer">
           <div class="viewer-img-area" id="imgarea-${caseId}-a">
-            <div class="loading-placeholder">Loading…</div>
+            <div class="loading-placeholder">加载中…</div>
           </div>
           <div class="viewer-nav" id="viewnav-${caseId}-a" style="display:none"></div>
         </div>
         <div class="image-viewer">
           <div class="viewer-img-area" id="imgarea-${caseId}-b">
-            <div class="loading-placeholder">Loading…</div>
+            <div class="loading-placeholder">加载中…</div>
           </div>
           <div class="viewer-nav" id="viewnav-${caseId}-b" style="display:none"></div>
         </div>
       </div>
-      <div class="section-label">Diagnosis</div>
+      <div class="section-label">诊断</div>
       <div class="diagnosis-grid">${diagnosisHTML}</div>
-      <div class="section-label">Confidence</div>
+      <div class="section-label">信心等级</div>
       <div class="confidence-row">${confidenceHTML}</div>`;
 
     container.appendChild(card);
@@ -439,14 +438,14 @@
     if (complete) {
       card.classList.add('completed');
       badge.classList.add('done');
-      badge.textContent = '✓ Complete';
+      badge.textContent = '✓ 已完成';
     } else {
       card.classList.remove('completed');
       badge.classList.remove('done');
       const parts = [];
-      if (!ans.diagnosis) parts.push('diagnosis');
-      if (!ans.confidence) parts.push('confidence');
-      badge.textContent = parts.length ? `Missing: ${parts.join(', ')}` : '';
+      if (!ans.diagnosis) parts.push('诊断');
+      if (!ans.confidence) parts.push('信心等级');
+      badge.textContent = parts.length ? `缺少：${parts.join('、')}` : '';
     }
   }
 
@@ -469,9 +468,9 @@
       const a = state.answers[caseId] || {};
       if (!a.diagnosis || !a.confidence) {
         const missing = [];
-        if (!a.diagnosis) missing.push('diagnosis');
-        if (!a.confidence) missing.push('confidence');
-        incomplete.push({ num: i, missing: missing.join(' + ') });
+        if (!a.diagnosis) missing.push('诊断');
+        if (!a.confidence) missing.push('信心等级');
+        incomplete.push({ num: i, missing: missing.join('、') });
       }
     }
     return incomplete;
@@ -500,7 +499,7 @@
 
   async function finish() {
     if (!state.readerId || !state.readerId.trim()) {
-      alert('Please enter your Reader ID before submitting.');
+      alert('请在提交前填写读者编号。');
       document.getElementById('readerId').focus();
       return;
     }
@@ -508,10 +507,10 @@
     const incomplete = getIncompleteCases();
     if (incomplete.length > 0) {
       const shown = incomplete.slice(0, 15)
-        .map(c => `  • Case ${c.num}  (missing ${c.missing})`)
+        .map(c => `  • 病例 ${c.num}（缺少：${c.missing}）`)
         .join('\n');
-      const more = incomplete.length > 15 ? `\n  ...and ${incomplete.length - 15} more` : '';
-      alert(`⚠  ${incomplete.length} case(s) still incomplete:\n\n${shown}${more}\n\nPlease complete them before submitting.`);
+      const more = incomplete.length > 15 ? `\n  ...还有 ${incomplete.length - 15} 个` : '';
+      alert(`⚠  还有 ${incomplete.length} 个病例未完成：\n\n${shown}${more}\n\n请完成后再提交。`);
       const target = document.getElementById(`card-case${incomplete[0].num}`);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -523,17 +522,17 @@
     }
 
     if (hasSubmitted) {
-      if (!confirm('You have already submitted. Submit again?')) return;
+      if (!confirm('您已经提交过了，是否再次提交？')) return;
     }
 
     if (!confirm(
-      `Ready to submit ${TOTAL_CASES} cases (${BATCH_LABEL})?\n\nReader ID: ${state.readerId}\nDate: ${state.studyDate}\n\nClick OK to submit.`
+      `确认提交 ${TOTAL_CASES} 个病例（${BATCH_LABEL}）？\n\n读者编号：${state.readerId}\n日期：${state.studyDate}\n\n点击确定提交。`
     )) return;
 
     const overlay = document.getElementById('submitOverlay');
     const overlayMsg = document.getElementById('overlayMsg');
     overlay.classList.add('active');
-    overlayMsg.textContent = 'Submitting your answers…';
+    overlayMsg.textContent = '正在提交答案…';
     document.getElementById('submitBtn').disabled = true;
 
     const data = buildSubmitData();
@@ -567,8 +566,8 @@
       if (response.ok) {
         hasSubmitted = true;
         showBanner('success',
-          '✓ Successfully submitted! Your answers have been saved. ' +
-          'You may close this page now. A local backup has also been downloaded.'
+          '✓ 提交成功！您的答案已保存。' +
+          '您现在可以关闭此页面。本地备份问卷结果已自动下载。'
         );
         downloadJSON(data);
       } else {
@@ -579,10 +578,9 @@
       overlay.classList.remove('active');
       document.getElementById('submitBtn').disabled = false;
 
-      // 在线提交失败，下载本地备份
       showBanner('error',
-        '✗ Online submission failed: ' + err.message +
-        '. A local backup has been downloaded. Please send the JSON file to the study coordinator via email or WeChat.'
+        '✗ 在线提交失败：' + err.message +
+        '。本地备份文件已自动下载，请通过邮件或微信将 JSON 文件发送给研究员。'
       );
       downloadJSON(data);
     }
@@ -612,7 +610,7 @@
   function downloadBackup() {
     const data = buildSubmitData();
     downloadJSON(data);
-    alert('Backup file downloaded.');
+    alert('备份文件已下载。');
   }
 
   // ---- 图片加载 ----
@@ -635,7 +633,7 @@
     if (!imgArea) return;
 
     if (!fileList || fileList.length === 0) {
-      imgArea.innerHTML = '<div class="loading-placeholder">No images</div>';
+      imgArea.innerHTML = '<div class="loading-placeholder">暂无图片</div>';
       navArea.style.display = 'none';
       return;
     }
@@ -643,20 +641,18 @@
     index = Math.max(0, Math.min(index, fileList.length - 1));
     imageIndices[caseId + '-' + side] = index;
 
-    // 图片路径：相对路径，指向 images/caseN/filename.jpg
     const imgUrl = 'images/' + caseId + '/' + fileList[index];
 
     let img = imgArea.querySelector('img');
     if (!img) {
       imgArea.innerHTML = '';
       img = document.createElement('img');
-      img.alt = 'Case image';
+      img.alt = '病例图片';
       img.onclick = function() { openLightbox(this.src); };
       imgArea.appendChild(img);
     }
     img.src = imgUrl;
 
-    // 导航栏
     const total = fileList.length;
     navArea.style.display = '';
     navArea.innerHTML = `
@@ -696,12 +692,12 @@
       }
     })
     .catch(err => {
-      console.error('Failed to load image manifest:', err);
+      console.error('图片清单加载失败：', err);
       for (let i = CASE_START; i <= CASE_END; i++) {
         const caseId = 'case' + i;
         ['a','b'].forEach(side => {
           const el = document.getElementById('imgarea-' + caseId + '-' + side);
-          if (el) el.innerHTML = '<div class="loading-placeholder">Failed to load images</div>';
+          if (el) el.innerHTML = '<div class="loading-placeholder">图片加载失败</div>';
         });
       }
     });
