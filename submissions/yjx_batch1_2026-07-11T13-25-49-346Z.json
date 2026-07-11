@@ -1,0 +1,398 @@
+{
+  "reader_id": "yjx",
+  "study_date": "2026-07-10",
+  "batch_id": "1",
+  "case_range": "1-97",
+  "submitted_at": "2026-07-11T13:25:49.345Z",
+  "total_cases": 97,
+  "answers": {
+    "case1": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 4
+    },
+    "case2": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case3": {
+      "diagnosis": "cephalocele",
+      "confidence": 4
+    },
+    "case4": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case5": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 4
+    },
+    "case6": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case7": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 3
+    },
+    "case8": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case9": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 4
+    },
+    "case10": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case11": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case12": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case13": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case14": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 2
+    },
+    "case15": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case16": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case17": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case18": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case19": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case20": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case21": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case22": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case23": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case24": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case25": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case26": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case27": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case28": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 2
+    },
+    "case29": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case30": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case31": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case32": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case33": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case34": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 2
+    },
+    "case35": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case36": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 4
+    },
+    "case37": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case38": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 4
+    },
+    "case39": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case40": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 2
+    },
+    "case41": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case42": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case43": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case44": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case45": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 4
+    },
+    "case46": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case47": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 4
+    },
+    "case48": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case49": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case50": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case51": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 2
+    },
+    "case52": {
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 3
+    },
+    "case53": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 2
+    },
+    "case54": {
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 3
+    },
+    "case55": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case56": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 4
+    },
+    "case57": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case58": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 4
+    },
+    "case59": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case60": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case61": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case62": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case63": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case64": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 1
+    },
+    "case65": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case66": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case67": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case68": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case69": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case70": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case71": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case72": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 2
+    },
+    "case73": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 2
+    },
+    "case74": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 4
+    },
+    "case75": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case76": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case77": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case78": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case79": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 2
+    },
+    "case80": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case81": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case82": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 2
+    },
+    "case83": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case84": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case85": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case86": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case87": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case88": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case89": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case90": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case91": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case92": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case93": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case94": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 2
+    },
+    "case95": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case96": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case97": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    }
+  }
+}
