@@ -1,0 +1,50 @@
+{
+  "reader_id": "C01",
+  "study_date": "2026-06-04",
+  "batch_id": "test",
+  "case_range": "1-10",
+  "submitted_at": "2026-06-05T22:55:46.390Z",
+  "total_cases": 10,
+  "answers": {
+    "case1": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case2": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case3": {
+      "diagnosis": "cephalocele",
+      "confidence": 5
+    },
+    "case4": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case5": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 2
+    },
+    "case6": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 4
+    },
+    "case7": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case8": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case9": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case10": {
+      "diagnosis": "normal",
+      "confidence": 2
+    }
+  }
+}
