@@ -641,7 +641,10 @@
     index = Math.max(0, Math.min(index, fileList.length - 1));
     imageIndices[caseId + '-' + side] = index;
 
-    const imgUrl = 'images/' + caseId + '/' + fileList[index];
+    // const imgUrl = 'images/' + caseId + '/' + fileList[index];
+    
+    const COS_BASE = 'https://reader-study-1300000000-1469079903.cos.ap-guangzhou.myqcloud.com';
+    const imgUrl = COS_BASE + '/images/' + caseId + '/' + fileList[index];
 
     let img = imgArea.querySelector('img');
     if (!img) {
