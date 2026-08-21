@@ -290,7 +290,7 @@
 
   const CONFIG = {
     batchId: '2',
-    batchLabel: 'part2',
+    batchLabel: '第2批（共3批）',
     caseStart: 98,
     caseEnd: 193,
   };
@@ -334,16 +334,125 @@
 
   const STORAGE_KEY = `reader_study_v3_batch${BATCH_ID}`;
   let hasSubmitted = false;
+  let storageBroken = false;   // 本地存储是否失效
+  let autoSubmitTimer = null;  // 自动云端保存的防抖计时器
 
-  // ---- 自动保存 ----
+  // ---- 自动保存（本地 localStorage + sessionStorage 双重备份）----
   function loadState() {
+    // 优先读 localStorage，读不到再试 sessionStorage
     try {
       const s = localStorage.getItem(STORAGE_KEY);
-      return s ? JSON.parse(s) : { readerId: '', studyDate: '', answers: {} };
-    } catch { return { readerId: '', studyDate: '', answers: {} }; }
+      if (s) return JSON.parse(s);
+    } catch (e) {}
+    try {
+      const s = sessionStorage.getItem(STORAGE_KEY);
+      if (s) return JSON.parse(s);
+    } catch (e) {}
+    return { readerId: '', studyDate: '', answers: {} };
   }
+
   function saveState() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+    const json = JSON.stringify(state);
+    let localOk = false, sessionOk = false;
+    try { localStorage.setItem(STORAGE_KEY, json); localOk = true; } catch (e) {}
+    try { sessionStorage.setItem(STORAGE_KEY, json); sessionOk = true; } catch (e) {}
+
+    if (!localOk && !sessionOk) {
+      // 两种本地存储都失败了，说明浏览器完全无法保存草稿
+      // 显示醒目警告，并立刻尝试云端自动保存兜底
+      if (!storageBroken) {
+        storageBroken = true;
+        showBanner('error',
+          '⚠ 检测到此浏览器无法保存草稿，请勿关闭或刷新此页面！' +
+          '系统将尝试每次作答后自动上传到云端保存，但强烈建议尽快填完并点击"提交"。'
+        );
+      }
+    }
+    // 无论本地保存是否成功，都触发一次云端自动保存（防抖）
+    scheduleAutoCloudSave();
+  }
+
+  // ---- 云端自动保存：每次作答后，等待 2.5 秒无操作再悄悄上传一次进度 ----
+  function scheduleAutoCloudSave() {
+    if (autoSubmitTimer) clearTimeout(autoSubmitTimer);
+    autoSubmitTimer = setTimeout(autoCloudSave, 2500);
+  }
+
+  async function autoCloudSave() {
+    // 还没填读者编号之前不上传，避免产生匿名垃圾文件
+    if (!state.readerId || !state.readerId.trim()) return;
+    // 一个 case 都没填也不用传
+    const hasAnyAnswer = Object.values(state.answers).some(a => a && (a.diagnosis || a.confidence));
+    if (!hasAnyAnswer) return;
+
+    try {
+      const data = buildSubmitData();
+      data.status = 'in_progress'; // 标记为"进行中"的草稿，区别于最终正式提交
+      const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+
+      await fetch(
+        `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${GITHUB.token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json',
+          },
+          body: JSON.stringify({
+            message: `草稿自动保存: ${state.readerId} batch ${BATCH_ID}`,
+            content: content,
+            branch: GITHUB.branch,
+            sha: window._draftSha || undefined, // 如果之前已有草稿文件，需要带上 sha 才能覆盖更新
+          }),
+        }
+      ).then(async res => {
+        if (res.ok) {
+          const j = await res.json();
+          window._draftSha = j.content && j.content.sha; // 记住这次的 sha，供下次覆盖使用
+        } else if (res.status === 422 || res.status === 409) {
+          // 文件已存在但 sha 不对，重新获取一次 sha 再重试
+          const getRes = await fetch(
+            `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
+            { headers: { 'Authorization': `token ${GITHUB.token}` } }
+          );
+          if (getRes.ok) {
+            const getJson = await getRes.json();
+            window._draftSha = getJson.sha;
+          }
+        }
+      });
+    } catch (e) {
+      // 云端自动保存失败也不打断医生填写，只在控制台记录
+      console.error('云端自动保存失败:', e);
+    }
+  }
+
+  // ---- 正式提交成功后，删除之前自动保存的草稿文件（保持仓库整洁）----
+  async function cleanupDraft() {
+    if (!window._draftSha || !state.readerId) return;
+    try {
+      const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
+      await fetch(
+        `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `token ${GITHUB.token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/vnd.github.v3+json',
+          },
+          body: JSON.stringify({
+            message: `清理草稿: ${state.readerId} batch ${BATCH_ID}`,
+            sha: window._draftSha,
+            branch: GITHUB.branch,
+          }),
+        }
+      );
+    } catch (e) {
+      console.error('清理草稿失败（不影响正式提交结果）:', e);
+    }
   }
 
   let state = loadState();
@@ -570,6 +679,8 @@
           '您现在可以关闭此页面。本地备份问卷结果已自动下载。'
         );
         downloadJSON(data);
+        // 正式提交成功后，清理掉之前自动保存的草稿文件
+        cleanupDraft();
       } else {
         const errData = await response.json().catch(() => ({}));
         throw new Error(errData.message || `HTTP ${response.status}`);
@@ -680,6 +791,17 @@
     const idx = parseInt(value) - 1;
     renderImage(caseId, side, fileList, idx);
   }
+
+  // ---- 离开页面前提醒：如果已填了答案但还没正式提交成功，弹出确认 ----
+  window.addEventListener('beforeunload', function (e) {
+    if (hasSubmitted) return; // 已经正式提交成功，不用提醒
+    const hasAnyAnswer = Object.values(state.answers).some(a => a && (a.diagnosis || a.confidence));
+    if (hasAnyAnswer) {
+      e.preventDefault();
+      e.returnValue = '';
+      return '';
+    }
+  });
 
   // 加载图片清单（image-manifest.json）
   fetch('image-manifest.json')
