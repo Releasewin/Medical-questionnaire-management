@@ -1,0 +1,394 @@
+{
+  "reader_id": "xuechuan",
+  "study_date": "2026-08-15",
+  "batch_id": "3",
+  "case_range": "194-289",
+  "submitted_at": "2026-08-18T14:59:44.697Z",
+  "total_cases": 96,
+  "answers": {
+    "case194": {
+      "diagnosis": "normal",
+      "confidence": 4
+    },
+    "case195": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 3
+    },
+    "case196": {
+      "diagnosis": "holoprosencephaly",
+      "confidence": 4
+    },
+    "case197": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case198": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 5
+    },
+    "case199": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case200": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case201": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 4
+    },
+    "case202": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 4
+    },
+    "case203": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 4
+    },
+    "case204": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 4
+    },
+    "case205": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case206": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 4
+    },
+    "case207": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case208": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case209": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
+    },
+    "case210": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case211": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 4
+    },
+    "case212": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
+    },
+    "case213": {
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 2
+    },
+    "case214": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case215": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case216": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 3
+    },
+    "case217": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case218": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case219": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case220": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 4
+    },
+    "case221": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case222": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case223": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case224": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 3
+    },
+    "case225": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case226": {
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 3
+    },
+    "case227": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case228": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
+    },
+    "case229": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 4
+    },
+    "case230": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case231": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case232": {
+      "diagnosis": "normal",
+      "confidence": 1
+    },
+    "case233": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case234": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case235": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case236": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case237": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case238": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case239": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case240": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case241": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case242": {
+      "diagnosis": "normal",
+      "confidence": 1
+    },
+    "case243": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case244": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case245": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case246": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case247": {
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 3
+    },
+    "case248": {
+      "diagnosis": "cephalocele",
+      "confidence": 3
+    },
+    "case249": {
+      "diagnosis": "cephalocele",
+      "confidence": 5
+    },
+    "case250": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case251": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case252": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 2
+    },
+    "case253": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case254": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case255": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
+    },
+    "case256": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case257": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case258": {
+      "diagnosis": "cephalocele",
+      "confidence": 5
+    },
+    "case259": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case260": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case261": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case262": {
+      "diagnosis": "normal",
+      "confidence": 1
+    },
+    "case263": {
+      "diagnosis": "normal",
+      "confidence": 1
+    },
+    "case264": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case265": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
+    },
+    "case266": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case267": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case268": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 4
+    },
+    "case269": {
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 4
+    },
+    "case270": {
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 3
+    },
+    "case271": {
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 3
+    },
+    "case272": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 4
+    },
+    "case273": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case274": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case275": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
+    },
+    "case276": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case277": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
+    },
+    "case278": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case279": {
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
+    },
+    "case280": {
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
+    },
+    "case281": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case282": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
+    },
+    "case283": {
+      "diagnosis": "normal",
+      "confidence": 3
+    },
+    "case284": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
+    },
+    "case285": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
+    },
+    "case286": {
+      "diagnosis": "normal",
+      "confidence": 2
+    },
+    "case287": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 4
+    },
+    "case288": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 2
+    },
+    "case289": {
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 2
+    }
+  }
+}
