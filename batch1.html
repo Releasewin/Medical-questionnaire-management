@@ -375,7 +375,7 @@
   // ---- 云端自动保存：每次作答后，等待 2.5 秒无操作再悄悄上传一次进度 ----
   function scheduleAutoCloudSave() {
     if (autoSubmitTimer) clearTimeout(autoSubmitTimer);
-    autoSubmitTimer = setTimeout(autoCloudSave, 2500);
+    autoSubmitTimer = setTimeout(autoCloudSave, 10000);
   }
 
   async function autoCloudSave() {
@@ -407,12 +407,13 @@
             sha: window._draftSha || undefined, // 如果之前已有草稿文件，需要带上 sha 才能覆盖更新
           }),
         }
-      ).then(async res => {
+        ).then(async res => {
         if (res.ok) {
           const j = await res.json();
           window._draftSha = j.content && j.content.sha; // 记住这次的 sha，供下次覆盖使用
+          autoSaveFailCount = 0; // 保存成功，失败计数清零
         } else if (res.status === 422 || res.status === 409) {
-          // 文件已存在但 sha 不对，重新获取一次 sha 再重试
+          // 文件已存在但 sha 不对，重新获取一次 sha
           const getRes = await fetch(
             `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
             { headers: { 'Authorization': `token ${GITHUB.token}` } }
@@ -421,12 +422,38 @@
             const getJson = await getRes.json();
             window._draftSha = getJson.sha;
           }
+          // 注意：这一轮的数据其实还没真正存进去，只是刷新了 sha，
+          // 必须抛出错误，让外层 catch 触发重试，下一轮才会真正把数据存上
+          throw new Error('sha 冲突，已刷新，等待下次重试写入');
+        } else {
+          // 其他任何非成功状态码（401权限失效、403被限流、500服务器错误等）
+          // 都视为失败，抛出错误交给外层 catch 统一处理
+          throw new Error(`GitHub API 返回异常状态码 ${res.status}`);
         }
       });
     } catch (e) {
-      // 云端自动保存失败也不打断医生填写，只在控制台记录
       console.error('云端自动保存失败:', e);
+      handleAutoSaveFailure();
     }
+  }
+
+  // ---- 自动保存失败的处理：记录失败次数 ----
+  let autoSaveFailCount = 0;
+
+  function handleAutoSaveFailure() {
+    autoSaveFailCount++;
+
+    // 连续失败 2 次以上，才提醒医生，避免偶尔一次网络抖动就吓到人
+    if (autoSaveFailCount >= 2) {
+      showBanner('error',
+        '⚠ 云端自动保存已连续失败 ' + autoSaveFailCount + ' 次，可能是网络不稳定。' +
+        '系统会继续自动重试，但建议尽快填完并点击"提交"按钮，或先下载一份本地备份。'
+      );
+    }
+
+    // 15 秒后自动重试一次，不用等医生再做新操作才触发
+    if (autoSubmitTimer) clearTimeout(autoSubmitTimer);
+    autoSubmitTimer = setTimeout(autoCloudSave, 15000);
   }
 
   // ---- 正式提交成功后，删除之前自动保存的草稿文件（保持仓库整洁）----
