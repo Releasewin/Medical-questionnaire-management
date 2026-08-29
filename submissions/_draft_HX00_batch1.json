@@ -3,7 +3,7 @@
   "study_date": "2026-08-29",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-08-29T06:34:33.463Z",
+  "submitted_at": "2026-08-29T06:35:06.965Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -27,8 +27,8 @@
       "confidence": 3
     },
     "case6": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
     },
     "case7": {
       "diagnosis": null,
