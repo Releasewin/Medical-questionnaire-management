@@ -3,7 +3,7 @@
   "study_date": "2026-08-29",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-08-29T06:49:32.142Z",
+  "submitted_at": "2026-08-29T06:49:35.547Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -155,8 +155,8 @@
       "confidence": 3
     },
     "case38": {
-      "diagnosis": "aqueductal_stenosis",
-      "confidence": null
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 3
     },
     "case39": {
       "diagnosis": null,
