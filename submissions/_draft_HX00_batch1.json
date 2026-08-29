@@ -3,7 +3,7 @@
   "study_date": "2026-08-29",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-08-29T07:11:17.045Z",
+  "submitted_at": "2026-08-29T07:11:20.465Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -339,8 +339,8 @@
       "confidence": 3
     },
     "case84": {
-      "diagnosis": "dandy_walker_malformation",
-      "confidence": null
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 3
     },
     "case85": {
       "diagnosis": null,
