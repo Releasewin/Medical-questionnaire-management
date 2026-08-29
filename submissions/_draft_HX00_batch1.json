@@ -3,7 +3,7 @@
   "study_date": "2026-08-29",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-08-29T07:06:23.272Z",
+  "submitted_at": "2026-08-29T07:06:30.796Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -299,8 +299,8 @@
       "confidence": 2
     },
     "case74": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 4
     },
     "case75": {
       "diagnosis": null,
