@@ -3,7 +3,7 @@
   "study_date": "2026-08-29",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-08-29T07:02:48.127Z",
+  "submitted_at": "2026-08-29T07:04:07.626Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -279,8 +279,8 @@
       "confidence": 3
     },
     "case69": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "dandy_walker_malformation",
+      "confidence": 3
     },
     "case70": {
       "diagnosis": null,
