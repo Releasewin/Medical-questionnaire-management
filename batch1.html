@@ -447,7 +447,8 @@
     if (autoSaveFailCount >= 2) {
       showBanner('error',
         '⚠ 云端自动保存已连续失败 ' + autoSaveFailCount + ' 次，可能是网络不稳定。' +
-        '系统会继续自动重试，但建议尽快填完并点击"提交"按钮，或先下载一份本地备份。'
+        '系统会继续自动重试，但建议尽快填完并点击"提交"按钮，或先下载一份本地备份。',
+        false
       );
     }
 
@@ -725,12 +726,14 @@
   }
 
   // ---- 提示条 ----
-  function showBanner(type, message) {
+  function showBanner(type, message, scroll = true) {
     const banner = document.getElementById('resultBanner');
     banner.className = 'result-banner ' + type;
     banner.textContent = message;
     banner.style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (scroll) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   // ---- 本地备份下载 ----
