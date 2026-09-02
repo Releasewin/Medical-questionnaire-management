@@ -3,7 +3,7 @@
   "study_date": "2026-09-02",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-09-02T14:04:44.636Z",
+  "submitted_at": "2026-09-02T14:06:16.796Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -23,7 +23,7 @@
       "confidence": 3
     },
     "case5": {
-      "diagnosis": "aqueductal_stenosis",
+      "diagnosis": "holoprosencephaly",
       "confidence": 3
     },
     "case6": {
