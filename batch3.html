@@ -299,11 +299,11 @@
   const GITHUB = {
     owner: 'Releasewin',
     repo: 'Medical-questionnaire-management',
-    _e: 'jlwkxebsdwb44D5PR7SL3TrWZ86OTvwJrbIigNg}F3|GX7I9}O|O|s|6V:<q<xhJDjhkU<rWhQ9RfD9MSOIIKQPJ}t;y4',
+    _e: 'jlwkxebsdwb44D5PR7SL3P3f]FdwjTvq5bPfvOEUOUDRE4XlZYiiO8W:}t5knQFsF7<}KdOMF8Ot\\]TDSVYJG7Qyr|Y5L',
     get token() { return this._e.split('').map(c => String.fromCharCode(c.charCodeAt(0) - 3)).join(''); },
     branch: 'main',
   };
-  // ===========================================================
+  const COS_SUBMIT_BASE = 'https://alternate-submission-1469079903.cos.ap-guangzhou.myqcloud.com';
 
   const CASE_START = CONFIG.caseStart;
   const CASE_END = CONFIG.caseEnd;
@@ -432,8 +432,42 @@
         }
       });
     } catch (e) {
-      console.error('云端自动保存失败:', e);
-      handleAutoSaveFailure();
+      console.error('GitHub 自动保存失败，尝试转投腾讯云:', e);
+      const cosOk = await saveToCOSBackup();
+      if (cosOk) {
+        console.log('已通过腾讯云备用通道保存成功');
+        autoSaveFailCount = 0; // 备用通道保存成功，视为这一轮没有失败
+      } else {
+        handleAutoSaveFailure();
+      }
+    }
+  }
+
+  function fetchWithTimeout(url, options, timeoutMs = 8000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal })
+      .finally(() => clearTimeout(timer));
+  }
+
+  // 备用通道：把当前数据写入腾讯云 COS
+  async function saveToCOSBackup() {
+    try {
+      const data = buildSubmitData();
+      data.status = 'in_progress_cos_backup';
+      const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
+      const url = COS_SUBMIT_BASE + '/' + filename;
+
+      const res = await fetchWithTimeout(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data, null, 2),
+      }, 8000);
+
+      return res.ok;
+    } catch (e) {
+      console.error('腾讯云备用保存也失败了:', e);
+      return false;
     }
   }
 
@@ -462,7 +496,7 @@
     if (!window._draftSha || !state.readerId) return;
     try {
       const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
-      await fetch(
+      await fetchWithTimeout(
         `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
         {
           method: 'DELETE',

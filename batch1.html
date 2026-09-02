@@ -299,11 +299,12 @@
   const GITHUB = {
     owner: 'Releasewin',
     repo: 'Medical-questionnaire-management',
-    _e: 'jlwkxebsdwb44D5PR7SL3TrWZ86OTvwJrbIigNg}F3|GX7I9}O|O|s|6V:<q<xhJDjhkU<rWhQ9RfD9MSOIIKQPJ}t;y4',
+    _e: 'jlwkxebsdwb44D5PR7SL3P3f]FdwjTvq5bPfvOEUOUDRE4XlZYiiO8W:}t5knQFsF7<}KdOMF8Ot\\]TDSVYJG7Qyr|Y5L',
     get token() { return this._e.split('').map(c => String.fromCharCode(c.charCodeAt(0) - 3)).join(''); },
     branch: 'main',
+    
   };
-  // ===========================================================
+   const COS_SUBMIT_BASE = 'https://alternate-submission-1469079903.cos.ap-guangzhou.myqcloud.com';
 
   const CASE_START = CONFIG.caseStart;
   const CASE_END = CONFIG.caseEnd;
@@ -378,6 +379,16 @@
     autoSubmitTimer = setTimeout(autoCloudSave, 10000);
   }
 
+
+  // 带超时的 fetch：超过指定秒数没有响应就主动判定为失败
+  function fetchWithTimeout(url, options, timeoutMs = 11000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal })
+      .finally(() => clearTimeout(timer));
+  }
+
+
   async function autoCloudSave() {
     // 还没填读者编号之前不上传，避免产生匿名垃圾文件
     if (!state.readerId || !state.readerId.trim()) return;
@@ -391,7 +402,7 @@
       const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
       const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
 
-      await fetch(
+      await fetchWithTimeout(
         `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
         {
           method: 'PUT',
@@ -432,8 +443,14 @@
         }
       });
     } catch (e) {
-      console.error('云端自动保存失败:', e);
-      handleAutoSaveFailure();
+      console.error('GitHub 自动保存失败，尝试转投腾讯云:', e);
+      const cosOk = await saveToCOSBackup();
+      if (cosOk) {
+        console.log('已通过腾讯云备用通道保存成功');
+        autoSaveFailCount = 0; // 备用通道保存成功，视为这一轮没有失败
+      } else {
+        handleAutoSaveFailure();
+      }
     }
   }
 
@@ -457,6 +474,27 @@
     autoSubmitTimer = setTimeout(autoCloudSave, 15000);
   }
 
+
+  // 备用通道：把当前数据写入腾讯云 COS
+  async function saveToCOSBackup() {
+    try {
+      const data = buildSubmitData();
+      data.status = 'in_progress_cos_backup';
+      const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
+      const url = COS_SUBMIT_BASE + '/' + filename;
+
+      const res = await fetchWithTimeout(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data, null, 2),
+      }, 8000);
+
+      return res.ok;
+    } catch (e) {
+      console.error('腾讯云备用保存也失败了:', e);
+      return false;
+    }
+  }
   // ---- 正式提交成功后，删除之前自动保存的草稿文件（保持仓库整洁）----
   async function cleanupDraft() {
     if (!window._draftSha || !state.readerId) return;
