@@ -1,0 +1,399 @@
+{
+  "reader_id": "RZML",
+  "study_date": "2026-09-02",
+  "batch_id": "1",
+  "case_range": "1-97",
+  "submitted_at": "2026-09-02T13:57:13.133Z",
+  "total_cases": 97,
+  "answers": {
+    "case1": {
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 3
+    },
+    "case2": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case3": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case4": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case5": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case6": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case7": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case8": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case9": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case10": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case11": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case12": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case13": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case14": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case15": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case16": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case17": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case18": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case19": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case20": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case21": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case22": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case23": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case24": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case25": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case26": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case27": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case28": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case29": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case30": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case31": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case32": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case33": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case34": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case35": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case36": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case37": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case38": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case39": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case40": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case41": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case42": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case43": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case44": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case45": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case46": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case47": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case48": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case49": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case50": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case51": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case52": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case53": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case54": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case55": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case56": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case57": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case58": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case59": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case60": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case61": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case62": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case63": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case64": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case65": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case66": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case67": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case68": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case69": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case70": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case71": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case72": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case73": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case74": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case75": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case76": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case77": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case78": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case79": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case80": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case81": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case82": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case83": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case84": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case85": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case86": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case87": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case88": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case89": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case90": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case91": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case92": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case93": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case94": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case95": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case96": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case97": {
+      "diagnosis": null,
+      "confidence": null
+    }
+  },
+  "status": "in_progress"
+}
