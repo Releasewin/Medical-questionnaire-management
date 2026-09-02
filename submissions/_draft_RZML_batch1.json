@@ -3,7 +3,7 @@
   "study_date": "2026-09-02",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-09-02T23:39:03.613Z",
+  "submitted_at": "2026-09-02T23:39:41.996Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -119,8 +119,8 @@
       "confidence": null
     },
     "case29": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 3
     },
     "case30": {
       "diagnosis": null,
