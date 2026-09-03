@@ -1,0 +1,395 @@
+{
+  "reader_id": "testz",
+  "study_date": "2026-06-03",
+  "batch_id": "3",
+  "case_range": "194-289",
+  "submitted_at": "2026-09-03T10:30:43.514Z",
+  "total_cases": 96,
+  "answers": {
+    "case194": {
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 1
+    },
+    "case195": {
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
+      "confidence": 4
+    },
+    "case196": {
+      "diagnosis": "hemorrhage",
+      "confidence": 2
+    },
+    "case197": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case198": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case199": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case200": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case201": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case202": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case203": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case204": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case205": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case206": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case207": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case208": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case209": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case210": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case211": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case212": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case213": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case214": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case215": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case216": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case217": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case218": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case219": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case220": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case221": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case222": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case223": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case224": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case225": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case226": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case227": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case228": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case229": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case230": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case231": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case232": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case233": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case234": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case235": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case236": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case237": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case238": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case239": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case240": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case241": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case242": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case243": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case244": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case245": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case246": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case247": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case248": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case249": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case250": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case251": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case252": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case253": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case254": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case255": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case256": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case257": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case258": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case259": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case260": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case261": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case262": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case263": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case264": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case265": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case266": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case267": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case268": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case269": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case270": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case271": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case272": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case273": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case274": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case275": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case276": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case277": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case278": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case279": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case280": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case281": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case282": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case283": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case284": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case285": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case286": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case287": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case288": {
+      "diagnosis": null,
+      "confidence": null
+    },
+    "case289": {
+      "diagnosis": null,
+      "confidence": null
+    }
+  },
+  "status": "in_progress"
+}
