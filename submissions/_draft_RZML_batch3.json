@@ -3,7 +3,7 @@
   "study_date": "2026-09-02",
   "batch_id": "3",
   "case_range": "194-289",
-  "submitted_at": "2026-09-03T01:52:45.425Z",
+  "submitted_at": "2026-09-03T01:54:40.564Z",
   "total_cases": 96,
   "answers": {
     "case194": {
@@ -147,8 +147,8 @@
       "confidence": 4
     },
     "case229": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "hemorrhage",
+      "confidence": 3
     },
     "case230": {
       "diagnosis": null,
