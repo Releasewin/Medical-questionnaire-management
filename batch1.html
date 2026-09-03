@@ -712,52 +712,60 @@
 
     const data = buildSubmitData();
 
-    // 尝试通过 GitHub API 提交
-    try {
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `submissions/${state.readerId}_batch${BATCH_ID}_${timestamp}.json`;
-      const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    // 同时提交给 GitHub 和腾讯云，任意一个成功就算提交成功
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `submissions/${state.readerId}_batch${BATCH_ID}_${timestamp}.json`;
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
 
-      const response = await fetch(
-        `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${GITHUB.token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json',
-          },
-          body: JSON.stringify({
-            message: `submission: ${state.readerId} batch ${BATCH_ID}`,
-            content: content,
-            branch: GITHUB.branch,
-          }),
-        }
-      );
+    const githubPromise = fetch(
+      `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
+      {
+        method: 'PUT',
+        keepalive: true,
+        headers: {
+          'Authorization': `token ${GITHUB.token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json',
+        },
+        body: JSON.stringify({
+          message: `submission: ${state.readerId} batch ${BATCH_ID}`,
+          content: content,
+          branch: GITHUB.branch,
+        }),
+      }
+    ).then(res => res.ok ? { ok: true, source: 'github' } : Promise.reject(new Error(`GitHub HTTP ${res.status}`)));
+
+    const cosPromise = fetch(
+      COS_SUBMIT_BASE + '/' + filename,
+      {
+        method: 'PUT',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data, null, 2),
+      }
+    ).then(res => res.ok ? { ok: true, source: 'cos' } : Promise.reject(new Error(`COS HTTP ${res.status}`)));
+
+    try {
+      // Promise.any：只要有一个成功就算成功，两个都失败才会走 catch
+      const result = await Promise.any([githubPromise, cosPromise]);
 
       overlay.classList.remove('active');
       document.getElementById('submitBtn').disabled = false;
 
-      if (response.ok) {
-        hasSubmitted = true;
-        showBanner('success',
-          '✓ 提交成功！您的答案已保存。' +
-          '您现在可以关闭此页面。本地备份问卷结果已自动下载。'
-        );
-        downloadJSON(data);
-        // 正式提交成功后，清理掉之前自动保存的草稿文件
-        cleanupDraft();
-      } else {
-        const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.message || `HTTP ${response.status}`);
-      }
+      hasSubmitted = true;
+      showBanner('success',
+        '✓ 提交成功！您的答案已保存（' + (result.source === 'github' ? 'GitHub' : '腾讯云') + '）。' +
+        '您现在可以关闭此页面。本地备份问卷结果已自动下载。'
+      );
+      downloadJSON(data);
+      cleanupDraft();
     } catch (err) {
       overlay.classList.remove('active');
       document.getElementById('submitBtn').disabled = false;
 
       showBanner('error',
-        '✗ 在线提交失败：' + err.message +
-        '。本地备份文件已自动下载，请通过邮件或微信将 JSON 文件发送给研究员。'
+        '✗ 在线提交失败：所有提交通道均未成功' +
+        '本地备份文件已自动下载，请通过邮件或微信将 JSON 文件发送给研究员。'
       );
       downloadJSON(data);
     }
