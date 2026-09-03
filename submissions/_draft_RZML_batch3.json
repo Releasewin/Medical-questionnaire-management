@@ -3,7 +3,7 @@
   "study_date": "2026-09-02",
   "batch_id": "3",
   "case_range": "194-289",
-  "submitted_at": "2026-09-03T02:37:58.240Z",
+  "submitted_at": "2026-09-03T02:38:20.722Z",
   "total_cases": 96,
   "answers": {
     "case194": {
@@ -347,7 +347,7 @@
       "confidence": 4
     },
     "case279": {
-      "diagnosis": "dandy_walker_malformation",
+      "diagnosis": "isolated_ventriculomegaly_mild_moderate",
       "confidence": 2
     },
     "case280": {
