@@ -396,61 +396,66 @@
     const hasAnyAnswer = Object.values(state.answers).some(a => a && (a.diagnosis || a.confidence));
     if (!hasAnyAnswer) return;
 
-    try {
-      const data = buildSubmitData();
-      data.status = 'in_progress'; // 标记为"进行中"的草稿，区别于最终正式提交
-      const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
-      const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    const data = buildSubmitData();
+    data.status = 'in_progress';
+    const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
 
-      await fetchWithTimeout(
-        `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${GITHUB.token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/vnd.github.v3+json',
-          },
-          body: JSON.stringify({
-            message: `草稿自动保存: ${state.readerId} batch ${BATCH_ID}`,
-            content: content,
-            branch: GITHUB.branch,
-            sha: window._draftSha || undefined, // 如果之前已有草稿文件，需要带上 sha 才能覆盖更新
-          }),
-        }
-        ).then(async res => {
-        if (res.ok) {
-          const j = await res.json();
-          window._draftSha = j.content && j.content.sha; // 记住这次的 sha，供下次覆盖使用
-          autoSaveFailCount = 0; // 保存成功，失败计数清零
-        } else if (res.status === 422 || res.status === 409) {
-          // 文件已存在但 sha 不对，重新获取一次 sha
-          const getRes = await fetch(
-            `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
-            { headers: { 'Authorization': `token ${GITHUB.token}` } }
-          );
-          if (getRes.ok) {
-            const getJson = await getRes.json();
-            window._draftSha = getJson.sha;
-          }
-          // 注意：这一轮的数据其实还没真正存进去，只是刷新了 sha，
-          // 必须抛出错误，让外层 catch 触发重试，下一轮才会真正把数据存上
-          throw new Error('sha 冲突，已刷新，等待下次重试写入');
-        } else {
-          // 其他任何非成功状态码（401权限失效、403被限流、500服务器错误等）
-          // 都视为失败，抛出错误交给外层 catch 统一处理
-          throw new Error(`GitHub API 返回异常状态码 ${res.status}`);
-        }
-      });
-    } catch (e) {
-      console.error('GitHub 自动保存失败，尝试转投腾讯云:', e);
-      const cosOk = await saveToCOSBackup();
-      if (cosOk) {
-        console.log('已通过腾讯云备用通道保存成功');
-        autoSaveFailCount = 0; // 备用通道保存成功，视为这一轮没有失败
-      } else {
-        handleAutoSaveFailure();
+    // GitHub 这一路
+    const githubPromise = fetchWithTimeout(
+      `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${GITHUB.token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json',
+        },
+        body: JSON.stringify({
+          message: `草稿自动保存: ${state.readerId} batch ${BATCH_ID}`,
+          content: content,
+          branch: GITHUB.branch,
+          sha: window._draftSha || undefined,
+        }),
       }
+    ).then(async res => {
+      if (res.ok) {
+        const j = await res.json();
+        window._draftSha = j.content && j.content.sha;
+        return { ok: true, source: 'github' };
+      } else if (res.status === 422 || res.status === 409) {
+        const getRes = await fetch(
+          `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/contents/${filename}`,
+          { headers: { 'Authorization': `token ${GITHUB.token}` } }
+        );
+        if (getRes.ok) {
+          const getJson = await getRes.json();
+          window._draftSha = getJson.sha;
+        }
+        throw new Error('sha 冲突，已刷新，等待下次重试写入');
+      } else {
+        throw new Error(`GitHub API 返回异常状态码 ${res.status}`);
+      }
+    });
+
+    // 腾讯云这一路（跟 GitHub 同时发出，不等 GitHub 结果）
+    const cosPromise = fetchWithTimeout(
+      COS_SUBMIT_BASE + '/' + filename,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, status: 'in_progress_cos_backup' }, null, 2),
+      },
+      8000
+    ).then(res => res.ok ? { ok: true, source: 'cos' } : Promise.reject(new Error(`COS HTTP ${res.status}`)));
+
+    try {
+      // 只要有一边成功就算这一轮自动保存成功
+      await Promise.any([githubPromise, cosPromise]);
+      autoSaveFailCount = 0;
+    } catch (aggregateError) {
+      console.error('GitHub 和腾讯云自动保存均失败:', aggregateError);
+      handleAutoSaveFailure();
     }
   }
 
@@ -475,26 +480,26 @@
   }
 
 
-  // 备用通道：把当前数据写入腾讯云 COS
-  async function saveToCOSBackup() {
-    try {
-      const data = buildSubmitData();
-      data.status = 'in_progress_cos_backup';
-      const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
-      const url = COS_SUBMIT_BASE + '/' + filename;
+  // // 备用通道：把当前数据写入腾讯云 COS
+  // async function saveToCOSBackup() {
+  //   try {
+  //     const data = buildSubmitData();
+  //     data.status = 'in_progress_cos_backup';
+  //     const filename = `submissions/_draft_${state.readerId}_batch${BATCH_ID}.json`;
+  //     const url = COS_SUBMIT_BASE + '/' + filename;
 
-      const res = await fetchWithTimeout(url, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data, null, 2),
-      }, 8000);
+  //     const res = await fetchWithTimeout(url, {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(data, null, 2),
+  //     }, 8000);
 
-      return res.ok;
-    } catch (e) {
-      console.error('腾讯云备用保存也失败了:', e);
-      return false;
-    }
-  }
+  //     return res.ok;
+  //   } catch (e) {
+  //     console.error('腾讯云备用保存也失败了:', e);
+  //     return false;
+  //   }
+  // }
   // ---- 正式提交成功后，删除之前自动保存的草稿文件（保持仓库整洁）----
   async function cleanupDraft() {
     if (!window._draftSha || !state.readerId) return;
