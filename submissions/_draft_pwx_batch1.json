@@ -3,7 +3,7 @@
   "study_date": "2026-09-02",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-09-04T14:23:21.094Z",
+  "submitted_at": "2026-09-04T14:24:24.563Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -243,8 +243,8 @@
       "confidence": 3
     },
     "case60": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "aqueductal_stenosis",
+      "confidence": 2
     },
     "case61": {
       "diagnosis": null,
