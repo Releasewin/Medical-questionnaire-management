@@ -3,7 +3,7 @@
   "study_date": "2026-09-02",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-09-04T14:20:47.484Z",
+  "submitted_at": "2026-09-04T14:21:03.782Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -211,8 +211,8 @@
       "confidence": 3
     },
     "case52": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "holoprosencephaly",
+      "confidence": 4
     },
     "case53": {
       "diagnosis": null,
