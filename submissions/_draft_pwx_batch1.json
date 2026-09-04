@@ -3,7 +3,7 @@
   "study_date": "2026-09-02",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-09-04T14:22:13.095Z",
+  "submitted_at": "2026-09-04T14:22:57.043Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -231,12 +231,12 @@
       "confidence": 5
     },
     "case57": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "isolated_ventriculomegaly_severe",
+      "confidence": 3
     },
     "case58": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 5
     },
     "case59": {
       "diagnosis": null,
