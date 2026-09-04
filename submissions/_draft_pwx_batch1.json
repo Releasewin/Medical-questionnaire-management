@@ -3,7 +3,7 @@
   "study_date": "2026-09-02",
   "batch_id": "1",
   "case_range": "1-97",
-  "submitted_at": "2026-09-04T14:36:08.059Z",
+  "submitted_at": "2026-09-04T14:38:08.812Z",
   "total_cases": 97,
   "answers": {
     "case1": {
@@ -291,16 +291,16 @@
       "confidence": 3
     },
     "case72": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "agenesis_of_the_corpus_callosum",
+      "confidence": 2
     },
     "case73": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "holoprosencephaly",
+      "confidence": 5
     },
     "case74": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "chiari_II_malformation",
+      "confidence": 5
     },
     "case75": {
       "diagnosis": null,
