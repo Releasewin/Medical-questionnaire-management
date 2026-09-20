@@ -250,9 +250,70 @@
     .progress-bar { width: 100%; }
     .actions { justify-content: flex-end; }
   }
+
+  /* 访问密码锁 */
+  .lock-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #1a1a1a;
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+  }
+  .lock-overlay.hidden { display: none; }
+  .lock-box {
+    background: white;
+    border-radius: 10px;
+    padding: 32px 28px;
+    max-width: 320px;
+    width: 100%;
+    text-align: center;
+  }
+  .lock-box h2 { font-size: 16px; margin: 0 0 16px; }
+  .lock-box input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+  .lock-box button {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .lock-box button:hover { background: #333; }
+  .lock-error {
+    color: #c0392b;
+    font-size: 13px;
+    margin-top: 8px;
+    min-height: 18px;
+  }
 </style>
 </head>
 <body>
+
+<!-- 访问密码锁 -->
+<div class="lock-overlay" id="lockOverlay">
+  <div class="lock-box">
+    <h2>请输入访问密码</h2>
+    <input type="password" id="lockPasswordInput" placeholder="密码" autocomplete="off">
+    <button onclick="tryUnlock()">进入</button>
+    <div class="lock-error" id="lockError"></div>
+  </div>
+</div>
 
 <!-- 提交中的遮罩层 -->
 <div class="submit-overlay" id="submitOverlay">
@@ -294,6 +355,35 @@
     caseStart: 1,
     caseEnd: 97,
   };
+
+  // ---- 访问密码锁：这里存的是密码的哈希值，不是密码本身 ----
+  const LOCK_HASH = 'cdb770bfbd52b71d4949ddddc426abf95892c82f823f3628feea41e0511f31f0';
+
+  async function sha256(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function unlockUI() {
+    document.getElementById('lockOverlay').classList.add('hidden');
+    loadCaseImages(); // 密码通过后才真正开始加载图片
+  }
+
+  async function tryUnlock() {
+    const input = document.getElementById('lockPasswordInput').value;
+    const hash = await sha256(input);
+    if (hash === LOCK_HASH) {
+      sessionStorage.setItem('reader_study_unlocked', '1');
+      unlockUI();
+    } else {
+      document.getElementById('lockError').textContent = '密码错误，请重试。';
+    }
+  }
+
+  // 同一次浏览器会话内解锁过一次，就不用重复输入
+  if (sessionStorage.getItem('reader_study_unlocked') === '1') {
+    unlockUI();
+  }
 
   // GitHub API 配置（用于在线提交）
   const GITHUB = {
@@ -884,28 +974,30 @@
     }
   });
 
-  // 加载图片清单（image-manifest.json）
-  fetch('image-manifest.json')
-    .then(r => r.json())
-    .then(imageMap => {
-      window._imageMap = imageMap || {};
-      for (let i = CASE_START; i <= CASE_END; i++) {
-        const caseId = 'case' + i;
-        const fileList = imageMap[caseId] || [];
-        renderImage(caseId, 'a', fileList, 0);
-        renderImage(caseId, 'b', fileList, Math.min(1, Math.max(0, fileList.length - 1)));
-      }
-    })
-    .catch(err => {
-      console.error('图片清单加载失败：', err);
-      for (let i = CASE_START; i <= CASE_END; i++) {
-        const caseId = 'case' + i;
-        ['a','b'].forEach(side => {
-          const el = document.getElementById('imgarea-' + caseId + '-' + side);
-          if (el) el.innerHTML = '<div class="loading-placeholder">图片加载失败</div>';
-        });
-      }
-    });
+  // 加载图片清单（image-manifest.json）——只有密码验证通过后才会被调用
+  function loadCaseImages() {
+    fetch('image-manifest.json')
+      .then(r => r.json())
+      .then(imageMap => {
+        window._imageMap = imageMap || {};
+        for (let i = CASE_START; i <= CASE_END; i++) {
+          const caseId = 'case' + i;
+          const fileList = imageMap[caseId] || [];
+          renderImage(caseId, 'a', fileList, 0);
+          renderImage(caseId, 'b', fileList, Math.min(1, Math.max(0, fileList.length - 1)));
+        }
+      })
+      .catch(err => {
+        console.error('图片清单加载失败：', err);
+        for (let i = CASE_START; i <= CASE_END; i++) {
+          const caseId = 'case' + i;
+          ['a','b'].forEach(side => {
+            const el = document.getElementById('imgarea-' + caseId + '-' + side);
+            if (el) el.innerHTML = '<div class="loading-placeholder">图片加载失败</div>';
+          });
+        }
+      });
+  }
 </script>
 </body>
 </html>
