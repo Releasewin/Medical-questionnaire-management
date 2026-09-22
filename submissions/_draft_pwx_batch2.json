@@ -3,7 +3,7 @@
   "study_date": "2026-09-16",
   "batch_id": "2",
   "case_range": "98-193",
-  "submitted_at": "2026-09-22T09:05:34.901Z",
+  "submitted_at": "2026-09-22T09:06:05.976Z",
   "total_cases": 96,
   "answers": {
     "case98": {
@@ -287,8 +287,8 @@
       "confidence": 4
     },
     "case168": {
-      "diagnosis": null,
-      "confidence": null
+      "diagnosis": "normal",
+      "confidence": 3
     },
     "case169": {
       "diagnosis": null,
